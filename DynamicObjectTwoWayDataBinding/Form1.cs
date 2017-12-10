@@ -16,5 +16,27 @@ namespace DynamicObjectTwoWayDataBinding
         {
             InitializeComponent();
         }
+
+        dynamic data = new MyCustomObject();
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            data.StringProperty = "Some Text";
+            data.BooleanProperty = true;
+            data.DateTimeProperty = DateTime.Now.AddYears(10);
+            data.IntegerProperty = 100;
+
+            textBox1.DataBindings.Add("Text", data, "StringProperty", true, DataSourceUpdateMode.OnPropertyChanged);
+            checkBox1.DataBindings.Add("Checked", data, "BooleanProperty", true, DataSourceUpdateMode.OnPropertyChanged);
+            dateTimePicker1.DataBindings.Add("Value", data, "DateTimeProperty", true, DataSourceUpdateMode.OnPropertyChanged);
+            numericUpDown1.DataBindings.Add("Value", data, "IntegerProperty", true, DataSourceUpdateMode.OnPropertyChanged);
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            data.StringProperty = "Some Other Text";
+            data.BooleanProperty = false;
+            data.DateTimeProperty = DateTime.Now.AddYears(20);
+            data.IntegerProperty = 200;
+        }
     }
 }
