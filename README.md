@@ -6,3 +6,5 @@ To create a Dynamic Object which you can use for two-way data-binding to Windows
 `INotifyPropertyChanged` is responsible for raising `PropertyChanged` event. It's a key point in two-way data-binding.
 
 In the example, I've craeted an implementation of the `DynamicObject` which you can simply add properties to it and use for two-wat data-binding in Windows Forms.
+
+![dynamic object two way databinding](image.png)

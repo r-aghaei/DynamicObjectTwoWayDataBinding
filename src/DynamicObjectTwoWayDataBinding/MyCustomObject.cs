@@ -13,6 +13,11 @@ namespace DynamicObjectTwoWayDataBinding
         private readonly Object thisLock = new Object();
         public event PropertyChangedEventHandler PropertyChanged;
         private Dictionary<string, object> dictionary = new Dictionary<string, object>();
+    ISynchronizeInvoke syncronzeInvoke;
+    public MyCustomObject(ISynchronizeInvoke value = null)
+    {
+        syncronzeInvoke = value;
+    }
         public object this[string name]
         {
             get
@@ -32,10 +37,16 @@ namespace DynamicObjectTwoWayDataBinding
                     OnPropertyChanged(name);
             }
         }
-        private void OnPropertyChanged(string name)
-        {
+    private void OnPropertyChanged(string name)
+    {
+        if (syncronzeInvoke != null && syncronzeInvoke.InvokeRequired)
+            syncronzeInvoke.Invoke(new Action(() =>
+            {
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+            }), null);
+        else
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
-        }
+    }
         public override bool TryGetMember(GetMemberBinder binder, out object result)
         {
             result = this[binder.Name];

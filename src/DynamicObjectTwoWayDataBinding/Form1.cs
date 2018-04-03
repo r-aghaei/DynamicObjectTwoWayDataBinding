@@ -17,9 +17,11 @@ namespace DynamicObjectTwoWayDataBinding
             InitializeComponent();
         }
 
-        dynamic data = new MyCustomObject();
+        dynamic data;
         private void Form1_Load(object sender, EventArgs e)
         {
+            data = new MyCustomObject(this);
+
             data.StringProperty = "Some Text";
             data.BooleanProperty = true;
             data.DateTimeProperty = DateTime.Now.AddYears(10);
@@ -38,5 +40,16 @@ namespace DynamicObjectTwoWayDataBinding
             data.DateTimeProperty = DateTime.Now.AddYears(20);
             data.IntegerProperty = 200;
         }
+
+    private void button2_Click(object sender, EventArgs e)
+    {
+        Task.Run(() =>
+        {
+            data.StringProperty = "Another Text";
+            data.BooleanProperty = true;
+            data.DateTimeProperty = DateTime.Now.AddYears(30);
+            data.IntegerProperty = 300;
+        });
+    }
     }
 }
